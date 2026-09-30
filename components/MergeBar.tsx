@@ -73,7 +73,7 @@ export default function MergeBar({
 
       <div className="hidden flex-1 sm:block" />
 
-      <label htmlFor="outname" className="text-sm text-muted">
+      <label htmlFor="outname" className="text-sm text-muted sm:min-w-[130px] sm:text-right">
         {t.fileName}
       </label>
       <input
@@ -88,7 +88,7 @@ export default function MergeBar({
         type="button"
         onClick={onMerge}
         disabled={!canMerge || busy}
-        className={`flex h-12 items-center gap-2.5 rounded-xl px-6 text-base font-semibold ${
+        className={`flex h-12 items-center justify-center gap-2.5 rounded-xl px-6 sm:min-w-[360px] text-base font-semibold ${
           !canMerge
             ? "bg-btn-off text-btn-off-fg"
             : busy

@@ -137,10 +137,10 @@ export default function PdfJoiner() {
       {empty ? (
         <main data-fade className="flex flex-1 flex-col items-center justify-center gap-9 px-6 pb-12 sm:px-16">
           <div className="flex flex-col items-center gap-3 text-center">
-            <h1 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-[52px]">
+            <h1 className="flex min-h-[2.1em] max-w-[820px] items-center justify-center font-display text-4xl leading-[1.05] tracking-tight sm:text-[52px]">
               {t.heroTitle}
             </h1>
-            <p className="max-w-[560px] text-lg leading-normal text-muted">
+            <p className="min-h-[84px] max-w-[560px] text-lg leading-normal text-muted">
               {t.heroSub}
             </p>
           </div>
@@ -158,10 +158,10 @@ export default function PdfJoiner() {
           <Rejections list={rejections} onDismiss={() => setRejections([])} />
 
           <section className="flex flex-col gap-4">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div className="flex flex-wrap items-baseline gap-x-3">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="flex flex-col gap-1">
                 <h2 className="font-display text-2xl">{t.joinOrder}</h2>
-                <span className="text-sm text-muted">{t.joinHint}</span>
+                <span className="min-h-10 text-sm text-muted">{t.joinHint}</span>
               </div>
               <button
                 type="button"

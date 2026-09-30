@@ -149,10 +149,18 @@ html.theme-anim *::after {
 
 /* ---- Language switch ------------------------------------------------- */
 
-/* Text fades out, the dictionary swaps while invisible, then it fades in,
-   so the reflow from different string lengths is never seen. */
-[data-fade] { transition: opacity 0.2s ease; }
-html.lang-fading [data-fade] { opacity: 0; transition-duration: 0.16s; }
+/* Only the glyphs fade: text colour goes transparent, the dictionary swaps,
+   then the colour returns. Boxes, borders, icons and inputs never move or
+   dim. */
+[data-fade],
+[data-fade] *:not(svg, svg *, input) {
+  transition: color 0.2s ease;
+}
+html.lang-fading [data-fade],
+html.lang-fading [data-fade] *:not(svg, svg *, input) {
+  color: transparent !important;
+  transition-duration: 0.16s;
+}
 
 @keyframes pj-menu-in {
   from { opacity: 0; transform: translateY(-6px) scale(0.96); }

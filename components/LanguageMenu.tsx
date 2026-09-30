@@ -44,7 +44,7 @@ export default function LanguageMenu() {
         className="flex h-11 items-center gap-2 rounded-[10px] border border-line bg-surface pl-3.5 pr-3 text-[15px] font-medium"
       >
         <GlobeIcon size={18} strokeWidth={1.8} />
-        <span data-fade className="hidden sm:inline">{current.name}</span>
+        <span data-fade className="hidden min-w-[4.5rem] text-left sm:inline-block">{current.name}</span>
         <span className="sm:hidden uppercase">{current.code}</span>
         <ChevronDown size={16} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>

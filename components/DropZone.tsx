@@ -83,7 +83,7 @@ export default function DropZone({ variant, disabled, onFiles }: Props) {
       <UploadIcon size={32} className="text-accent" strokeWidth={1.6} />
       <div className="min-w-[240px] flex-1">
         <div className="text-base font-semibold">{t.dropTitle}</div>
-        <div className="mt-0.5 text-sm text-muted">{t.dropSub}</div>
+        <div className="mt-0.5 min-h-10 text-sm text-muted lg:min-h-5">{t.dropSub}</div>
       </div>
       <button
         type="button"

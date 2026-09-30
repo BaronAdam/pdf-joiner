@@ -101,7 +101,7 @@ export default function FileCard({
         <div className="truncate text-[15px] font-semibold" title={item.name}>
           {item.name}
         </div>
-        <div className="text-[13px] text-muted">
+        <div className="truncate text-[13px] text-muted">
           {fmtCount(item.pageCount, "page")} · {formatLabel(t, item.format)} ·{" "}
           {formatBytes(item.size)}
         </div>
