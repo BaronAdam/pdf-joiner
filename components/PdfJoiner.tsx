@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   KeyboardSensor,
@@ -17,22 +17,30 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import type { PdfItem, PendingItem, Rejection } from "@/lib/types";
-import { readPdfInfo } from "@/lib/pdfInfo";
+import { PdfReadError, readPdfInfo } from "@/lib/pdfInfo";
 import { downloadPdf, mergePdfs, sanitizeFilename } from "@/lib/mergePdfs";
+import { useI18n } from "@/lib/useSettings";
 import DropZone from "./DropZone";
 import FileCard, { PendingCard } from "./FileCard";
 import MergeBar from "./MergeBar";
+import LanguageMenu from "./LanguageMenu";
+import ThemeToggle from "./ThemeToggle";
 import { LockIcon, LogoIcon } from "./icons";
 
 export default function PdfJoiner() {
+  const { t, locale } = useI18n();
   const [items, setItems] = useState<PdfItem[]>([]);
   const [pending, setPending] = useState<PendingItem[]>([]);
   const [rejections, setRejections] = useState<Rejection[]>([]);
   const [busy, setBusy] = useState(false);
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
   const [outName, setOutName] = useState("merged.pdf");
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -41,25 +49,28 @@ export default function PdfJoiner() {
 
   const reset = () => {
     setDone(false);
-    setError(null);
+    setFailed(false);
   };
+
+  const reject = (r: Rejection) => setRejections((prev) => [...prev, r]);
 
   const addFiles = (files: File[]) => {
     reset();
     for (const file of files) {
       const id = crypto.randomUUID();
       if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
-        setRejections((r) => [
-          ...r,
-          { id, message: `${file.name} isn't a PDF and was skipped.` },
-        ]);
+        reject({ id, name: file.name, code: "notPdf" });
         continue;
       }
       setPending((p) => [...p, { id, name: file.name }]);
       readPdfInfo(file)
         .then((info) => setItems((prev) => [...prev, { id, file, ...info }]))
-        .catch((e: Error) =>
-          setRejections((r) => [...r, { id, message: `${file.name}: ${e.message}` }]),
+        .catch((e: unknown) =>
+          reject({
+            id,
+            name: file.name,
+            code: e instanceof PdfReadError ? e.code : "unreadable",
+          }),
         )
         .finally(() => setPending((p) => p.filter((x) => x.id !== id)));
     }
@@ -85,7 +96,7 @@ export default function PdfJoiner() {
   const merge = async () => {
     setBusy(true);
     setDone(false);
-    setError(null);
+    setFailed(false);
     setStep(0);
     try {
       const bytes = await mergePdfs(
@@ -97,7 +108,7 @@ export default function PdfJoiner() {
       downloadPdf(bytes, name);
       setDone(true);
     } catch {
-      setError("Merging failed. One of the files may be damaged.");
+      setFailed(true);
     } finally {
       setBusy(false);
     }
@@ -108,14 +119,18 @@ export default function PdfJoiner() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex flex-wrap items-center justify-between gap-2 px-6 pt-6 sm:px-16">
+      <header className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 px-6 pt-6 sm:px-16">
         <div className="flex items-center gap-3">
           <LogoIcon size={28} className="text-accent" strokeWidth={1.8} />
           <span className="font-display text-[26px] tracking-tight">PDF Joiner</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted">
-          <LockIcon size={16} className="text-accent" />
-          Files never leave your device
+        <div className="flex items-center gap-5">
+          <div className="hidden items-center gap-2 text-sm text-muted lg:flex">
+            <LockIcon size={16} className="text-accent" />
+            {t.privacy}
+          </div>
+          <LanguageMenu />
+          <ThemeToggle />
         </div>
       </header>
 
@@ -123,34 +138,30 @@ export default function PdfJoiner() {
         <main className="flex flex-1 flex-col items-center justify-center gap-9 px-6 pb-12 sm:px-16">
           <div className="flex flex-col items-center gap-3 text-center">
             <h1 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-[52px]">
-              Join PDFs, page for page.
+              {t.heroTitle}
             </h1>
             <p className="max-w-[560px] text-lg leading-normal text-muted">
-              Add your files, put them in the order you want, and download one
-              PDF. Nothing is resized or re-rendered.
+              {t.heroSub}
             </p>
           </div>
           <DropZone variant="hero" onFiles={addFiles} />
-          <ol className="flex flex-wrap justify-center gap-x-10 gap-y-2 text-sm text-[#4a463d]">
-            <li>1 · Add two or more PDFs</li>
-            <li>2 · Drag to rearrange</li>
-            <li>3 · Merge &amp; download</li>
+          <ol className="flex flex-wrap justify-center gap-x-10 gap-y-2 text-sm text-muted">
+            {t.steps.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
           </ol>
-          <Rejections list={rejections} onDismiss={setRejections} />
+          <Rejections list={rejections} onDismiss={() => setRejections([])} />
         </main>
       ) : (
         <main className="flex flex-1 flex-col gap-7 px-6 pb-8 pt-8 sm:px-16">
           <DropZone variant="compact" disabled={busy} onFiles={addFiles} />
-          <Rejections list={rejections} onDismiss={setRejections} />
+          <Rejections list={rejections} onDismiss={() => setRejections([])} />
 
           <section className="flex flex-col gap-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <div className="flex flex-wrap items-baseline gap-x-3">
-                <h2 className="font-display text-2xl">Join order</h2>
-                <span className="text-sm text-muted">
-                  Drag any preview onto another to swap places, or use the
-                  arrows. First card becomes the first pages.
-                </span>
+                <h2 className="font-display text-2xl">{t.joinOrder}</h2>
+                <span className="text-sm text-muted">{t.joinHint}</span>
               </div>
               <button
                 type="button"
@@ -161,7 +172,7 @@ export default function PdfJoiner() {
                 }}
                 className="min-h-11 px-2 text-sm font-semibold text-danger underline disabled:opacity-40"
               >
-                Clear all
+                {t.clearAll}
               </button>
             </div>
 
@@ -210,7 +221,7 @@ export default function PdfJoiner() {
           step={step}
           currentName={items[step]?.name}
           done={done}
-          error={error}
+          failed={failed}
           canMerge={items.length >= 2 && pending.length === 0}
           outName={outName}
           onOutName={setOutName}
@@ -226,25 +237,26 @@ function Rejections({
   onDismiss,
 }: {
   list: Rejection[];
-  onDismiss: (l: Rejection[]) => void;
+  onDismiss: () => void;
 }) {
+  const { t } = useI18n();
   if (!list.length) return null;
   return (
     <div
       role="alert"
-      className="flex w-full max-w-[760px] items-start gap-4 rounded-xl border border-danger bg-[#fbedea] px-4 py-3 text-sm text-[#8a2414]"
+      className="flex w-full max-w-[760px] items-start gap-4 rounded-xl border border-danger bg-danger-soft px-4 py-3 text-sm text-danger-ink"
     >
       <ul className="flex-1 space-y-1">
         {list.map((r) => (
-          <li key={r.id}>{r.message}</li>
+          <li key={r.id}>
+            {r.code === "notPdf"
+              ? t.notPdf(r.name)
+              : `${r.name}: ${t[r.code]}`}
+          </li>
         ))}
       </ul>
-      <button
-        type="button"
-        onClick={() => onDismiss([])}
-        className="font-semibold underline"
-      >
-        Dismiss
+      <button type="button" onClick={onDismiss} className="font-semibold underline">
+        {t.dismiss}
       </button>
     </div>
   );

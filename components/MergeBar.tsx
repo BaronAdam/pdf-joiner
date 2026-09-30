@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/lib/useSettings";
 import { DownloadIcon, SpinnerIcon } from "./icons";
 
 type Props = {
@@ -9,7 +10,7 @@ type Props = {
   step: number;
   currentName?: string;
   done: boolean;
-  error: string | null;
+  failed: boolean;
   canMerge: boolean;
   outName: string;
   onOutName: (v: string) => void;
@@ -23,29 +24,30 @@ export default function MergeBar({
   step,
   currentName,
   done,
-  error,
+  failed,
   canMerge,
   outName,
   onOutName,
   onMerge,
 }: Props) {
+  const { t, count } = useI18n();
   const pct = busy ? Math.round(((step + 0.5) / fileCount) * 100) : 0;
 
   return (
     <footer className="sticky bottom-0 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line bg-surface px-6 py-[18px] sm:px-16">
-      <div className="flex w-full flex-col gap-1.5 sm:w-[380px]" aria-live="polite">
+      <div className="flex w-full flex-col gap-1.5 sm:w-[400px]" aria-live="polite">
         <span className="text-base font-semibold">
-          {fileCount} {fileCount === 1 ? "file" : "files"} · {pageCount} pages
+          {count(fileCount, "file")} · {count(pageCount, "page")}
         </span>
         {busy ? (
           <>
             <div
               role="progressbar"
-              aria-label="Merge progress"
+              aria-label={t.progress}
               aria-valuemin={0}
               aria-valuemax={100}
               aria-valuenow={pct}
-              className="h-2 overflow-hidden rounded bg-[#e4dfd1]"
+              className="h-2 overflow-hidden rounded bg-skel"
             >
               <div
                 className="h-full rounded bg-accent transition-[width] duration-500"
@@ -53,27 +55,26 @@ export default function MergeBar({
               />
             </div>
             <span className="truncate text-[13px] font-semibold text-accent">
-              Adding file {Math.min(step + 1, fileCount)} of {fileCount}
-              {currentName ? ` — ${currentName}` : ""}
+              {t.stepText(Math.min(step + 1, fileCount), fileCount, currentName ?? "")}
             </span>
           </>
-        ) : error ? (
-          <span className="text-[13px] font-semibold text-danger">{error}</span>
+        ) : failed ? (
+          <span className="text-[13px] font-semibold text-danger">
+            {t.mergeFailed}
+          </span>
         ) : done ? (
           <span className="text-[13px] font-semibold text-accent">
-            Done — {outName} downloaded.
+            {t.done(outName)}
           </span>
         ) : (
-          <span className="text-[13px] text-muted">
-            Merged in your browser, nothing uploaded.
-          </span>
+          <span className="text-[13px] text-muted">{t.idle}</span>
         )}
       </div>
 
       <div className="hidden flex-1 sm:block" />
 
       <label htmlFor="outname" className="text-sm text-muted">
-        File name
+        {t.fileName}
       </label>
       <input
         id="outname"
@@ -81,18 +82,22 @@ export default function MergeBar({
         value={outName}
         disabled={busy}
         onChange={(e) => onOutName(e.target.value)}
-        className="h-11 w-[200px] rounded-[10px] border-[1.5px] border-[#b9b2a0] bg-[#fbf9f4] px-3.5 text-[15px]"
+        className="h-11 w-[200px] rounded-[10px] border-[1.5px] border-dash bg-surface2 px-3.5 text-[15px] text-ink"
       />
       <button
         type="button"
         onClick={onMerge}
         disabled={!canMerge || busy}
-        className={`flex h-12 items-center gap-2.5 rounded-xl px-6 text-base font-semibold text-white ${
-          !canMerge ? "bg-[#8a8677]" : busy ? "bg-[#3f7f7c]" : "bg-accent"
+        className={`flex h-12 items-center gap-2.5 rounded-xl px-6 text-base font-semibold ${
+          !canMerge
+            ? "bg-btn-off text-btn-off-fg"
+            : busy
+              ? "bg-btn-busy text-btn-fg"
+              : "bg-btn text-btn-fg"
         }`}
       >
         {busy ? <SpinnerIcon /> : <DownloadIcon />}
-        {busy ? "Merging…" : "Merge & download"}
+        {busy ? t.merging : t.merge}
       </button>
     </footer>
   );

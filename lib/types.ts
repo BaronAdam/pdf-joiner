@@ -1,3 +1,5 @@
+import type { PageFormat } from "./i18n";
+
 export type PdfItem = {
   id: string;
   file: File;
@@ -5,9 +7,11 @@ export type PdfItem = {
   size: number;
   pageCount: number;
   thumb: string;
-  format: string;
+  format: PageFormat;
 };
 
 export type PendingItem = { id: string; name: string };
 
-export type Rejection = { id: string; message: string };
+export type RejectionCode = "notPdf" | "password" | "unreadable";
+
+export type Rejection = { id: string; name: string; code: RejectionCode };

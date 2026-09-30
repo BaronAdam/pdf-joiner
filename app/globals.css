@@ -1,27 +1,77 @@
 @import "tailwindcss";
 
+/* Light is the default. layout.tsx sets data-theme before first paint
+   (saved choice, else the OS preference). */
 :root {
+  color-scheme: light;
   --paper: #f4f1ea;
   --surface: #ffffff;
+  --surface2: #fbf9f4;
   --well: #ece8dc;
   --ink: #1b1a17;
   --muted: #5e5a50;
   --line: #ddd7c8;
+  --dash: #b9b2a0;
   --accent: #0f5f5c;
   --accent-soft: #e6efec;
+  --btn: #0f5f5c;
+  --btn-busy: #3f7f7c;
+  --btn-off: #6f6b5e;
+  --btn-fg: #ffffff;
+  --btn-off-fg: #ffffff;
   --danger: #a32d1b;
+  --danger-soft: #fbedea;
+  --danger-ink: #8a2414;
+  --skel: #e4dfd1;
+  --shine: rgba(255, 255, 255, 0.65);
+  --menu-shadow: rgba(27, 26, 23, 0.14);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #151411;
+  --surface: #1f1d19;
+  --surface2: #191814;
+  --well: #28261f;
+  --ink: #f1eee6;
+  --muted: #b3aea0;
+  --line: #38352d;
+  --dash: #5c5849;
+  --accent: #6cc4bd;
+  --accent-soft: #1b2b29;
+  --btn: #6cc4bd;
+  --btn-busy: #4e918c;
+  --btn-off: #4a473e;
+  --btn-fg: #0d1f1d;
+  --btn-off-fg: #cfcabc;
+  --danger: #ff8f7a;
+  --danger-soft: #3a1a15;
+  --danger-ink: #ffb4a5;
+  --skel: #2c2a23;
+  --shine: rgba(255, 255, 255, 0.07);
+  --menu-shadow: rgba(0, 0, 0, 0.5);
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
   --color-well: var(--well);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-dash: var(--dash);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-btn: var(--btn);
+  --color-btn-busy: var(--btn-busy);
+  --color-btn-off: var(--btn-off);
+  --color-btn-fg: var(--btn-fg);
+  --color-btn-off-fg: var(--btn-off-fg);
   --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-ink: var(--danger-ink);
+  --color-skel: var(--skel);
   --font-sans: var(--font-instrument);
   --font-display: var(--font-fraunces);
 }
@@ -53,8 +103,8 @@ input:focus-visible,
 }
 
 .pj-shim {
-  background-color: #e4dfd1;
-  background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0) 100%);
+  background-color: var(--skel);
+  background-image: linear-gradient(90deg, transparent 0, var(--shine) 50%, transparent 100%);
   background-size: 240px 100%;
   background-repeat: no-repeat;
   animation: pj-shimmer 1.3s ease-in-out infinite;

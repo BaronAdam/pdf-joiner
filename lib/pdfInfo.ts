@@ -1,3 +1,4 @@
+import type { PageFormat } from "./i18n";
 import type { PdfItem } from "./types";
 
 const PAPER: [string, number, number][] = [
@@ -8,18 +9,19 @@ const PAPER: [string, number, number][] = [
   ["Legal", 612, 1008],
 ];
 
-export function describeFormat(w: number, h: number): string {
+export function describeFormat(w: number, h: number): PageFormat {
   const [short, long] = w <= h ? [w, h] : [h, w];
-  const orientation = w > h ? "landscape" : "portrait";
   const hit = PAPER.find(
     ([, pw, ph]) => Math.abs(pw - short) <= 6 && Math.abs(ph - long) <= 6,
   );
-  return hit
-    ? `${hit[0]} ${orientation}`
-    : `${Math.round(w)}×${Math.round(h)} pt`;
+  return { paper: hit ? hit[0] : null, w, h, landscape: w > h };
 }
 
-export class PdfReadError extends Error {}
+export class PdfReadError extends Error {
+  constructor(public code: "password" | "unreadable") {
+    super(code);
+  }
+}
 
 /** Reads page count, first-page size and a thumbnail. Preview only, never used for output. */
 export async function readPdfInfo(
@@ -54,10 +56,9 @@ export async function readPdfInfo(
     };
   } catch (err) {
     const name = (err as { name?: string })?.name;
-    if (name === "PasswordException") {
-      throw new PdfReadError("Password-protected — unlock it first");
-    }
-    throw new PdfReadError("Couldn't read this file — it may be damaged");
+    throw new PdfReadError(
+      name === "PasswordException" ? "password" : "unreadable",
+    );
   } finally {
     void task.destroy();
   }

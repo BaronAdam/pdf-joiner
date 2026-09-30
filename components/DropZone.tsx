@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useI18n } from "@/lib/useSettings";
 import { UploadIcon } from "./icons";
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function DropZone({ variant, disabled, onFiles }: Props) {
+  const { t } = useI18n();
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
 
@@ -40,6 +42,7 @@ export default function DropZone({ variant, disabled, onFiles }: Props) {
       multiple
       className="sr-only"
       tabIndex={-1}
+      aria-hidden
       onChange={(e) => {
         take(e.target.files);
         e.target.value = "";
@@ -51,19 +54,19 @@ export default function DropZone({ variant, disabled, onFiles }: Props) {
     return (
       <div
         {...handlers}
-        className={`flex w-full max-w-[760px] flex-col items-center gap-5 rounded-[20px] border-2 border-dashed border-accent px-10 py-14 transition-colors ${
-          over ? "bg-[#d3e5e1]" : "bg-accent-soft"
+        className={`flex w-full max-w-[760px] flex-col items-center gap-5 rounded-[20px] border-2 border-dashed border-accent bg-accent-soft px-10 py-14 transition-shadow ${
+          over ? "ring-4 ring-accent/30" : ""
         }`}
       >
         <UploadIcon size={56} className="text-accent" strokeWidth={1.5} />
-        <div className="text-xl font-semibold">Drop PDF files here</div>
-        <div className="text-[15px] text-muted">or</div>
+        <div className="text-xl font-semibold">{t.dropHero}</div>
+        <div className="text-[15px] text-muted">{t.or}</div>
         <button
           type="button"
           onClick={() => input.current?.click()}
-          className="h-[52px] rounded-xl bg-accent px-8 text-base font-semibold text-white"
+          className="h-[52px] rounded-xl bg-btn px-8 text-base font-semibold text-btn-fg"
         >
-          Browse files
+          {t.browse}
         </button>
         {hidden}
       </div>
@@ -74,16 +77,13 @@ export default function DropZone({ variant, disabled, onFiles }: Props) {
     <div
       {...handlers}
       className={`flex flex-wrap items-center gap-5 rounded-[14px] border-2 border-dashed px-6 py-[18px] transition-colors ${
-        over ? "border-accent bg-accent-soft" : "border-[#b9b2a0] bg-[#fbf9f4]"
+        over ? "border-accent bg-accent-soft" : "border-dash bg-surface2"
       }`}
     >
       <UploadIcon size={32} className="text-accent" strokeWidth={1.6} />
       <div className="min-w-[240px] flex-1">
-        <div className="text-base font-semibold">Drop PDFs here to add more</div>
-        <div className="mt-0.5 text-sm text-muted">
-          Pages are appended exactly as they are — size, orientation and quality
-          untouched.
-        </div>
+        <div className="text-base font-semibold">{t.dropTitle}</div>
+        <div className="mt-0.5 text-sm text-muted">{t.dropSub}</div>
       </div>
       <button
         type="button"
@@ -91,7 +91,7 @@ export default function DropZone({ variant, disabled, onFiles }: Props) {
         onClick={() => input.current?.click()}
         className="min-h-11 rounded-[10px] border-[1.5px] border-ink px-5 text-[15px] font-semibold disabled:opacity-40"
       >
-        Browse files
+        {t.browse}
       </button>
       {hidden}
     </div>

@@ -45,6 +45,21 @@ export const LogoIcon = mk(
     <path d="M9 13h6M12 10v6" />
   </>,
 );
+export const GlobeIcon = mk(
+  <>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18" />
+    <path d="M12 3c2.6 2.5 4 5.6 4 9s-1.4 6.5-4 9c-2.6-2.5-4-5.6-4-9s1.4-6.5 4-9z" />
+  </>,
+);
+export const ChevronDown = mk(<path d="M6 9l6 6 6-6" />);
+export const MoonIcon = mk(<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />);
+export const SunIcon = mk(
+  <>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+  </>,
+);
 export const ChevronLeft = mk(<path d="M15 5l-7 7 7 7" />);
 export const ChevronRight = mk(<path d="M9 5l7 7-7 7" />);
 export const CloseIcon = mk(<path d="M6 6l12 12M18 6L6 18" />);
