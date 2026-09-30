@@ -73,7 +73,7 @@
   --color-danger-ink: var(--danger-ink);
   --color-skel: var(--skel);
   --font-sans: var(--font-instrument);
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-display-face);
 }
 
 body {

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Sans } from "next/font/google";
+import { Young_Serif, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const display = Young_Serif({
+  variable: "--font-display-face",
   subsets: ["latin", "latin-ext"],
-  weight: "600",
+  weight: "400",
 });
 
 const instrument = Instrument_Sans({
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fraunces.variable} ${instrument.variable}`}
+      className={`${display.variable} ${instrument.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
