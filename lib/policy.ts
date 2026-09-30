@@ -10,7 +10,7 @@ export type Policy = {
   summaryTitle: string;
   summary: string[];
   sections: Section[];
-  contact: { heading: string; body: string; linkText: string };
+  contact: { heading: string; before: string; after: string; linkText: string };
 };
 
 const en: Policy = {
@@ -21,7 +21,7 @@ const en: Policy = {
   summaryTitle: "In short",
   summary: [
     "Your PDFs are processed entirely in your browser. They are never uploaded, stored or seen by anyone else.",
-    "No accounts, no cookies, no analytics, no advertising, no third-party trackers.",
+    "No accounts, no analytics, no advertising, no third-party trackers — and no cookies of our own.",
     "The only thing saved on your device is your language and theme — and only if you choose them yourself.",
   ],
   sections: [
@@ -45,7 +45,7 @@ const en: Policy = {
     {
       heading: "Cookies and preferences",
       body: [
-        "We do not use cookies. The two values above stay on your device, are never sent to us, and exist only so the app looks the way you asked next time. Until you choose, the app simply follows your browser's language and your system's theme without saving anything. You can remove the saved values at any time by clearing this site's data in your browser settings.",
+        "We do not set any cookies ourselves. The two values above stay on your device, are never sent to us, and exist only so the app looks the way you asked next time. Until you choose, the app simply follows your browser's language and your system's theme without saving anything. You can remove the saved values at any time by clearing this site's data in your browser settings. The only cookie you may encounter is a strictly necessary security cookie from Cloudflare, described below.",
       ],
     },
     {
@@ -55,9 +55,16 @@ const en: Policy = {
       ],
     },
     {
+      heading: "Domain and network (Cloudflare)",
+      body: [
+        "Our domain name is registered with Cloudflare, Inc., which acts as registrar. Traffic to this site is routed through Cloudflare's network (DNS and proxy), which sits between your browser and our host to speed up delivery and protect the site from attacks and abuse.",
+        "To do this, Cloudflare processes technical request data such as your IP address, browser type and the pages requested, and may set a strictly necessary security cookie (for example for bot protection). We do not use Cloudflare for analytics or advertising, and we cannot use this data to identify you. Cloudflare's handling of data is described in the Cloudflare privacy policy.",
+      ],
+    },
+    {
       heading: "Third parties",
       body: [
-        "There are none. Fonts are bundled with the site rather than loaded from a font provider, and there are no advertisements, embedded widgets or social media buttons.",
+        "Apart from the infrastructure providers described above, there are none. Fonts are bundled with the site rather than loaded from a font provider, and there are no advertisements, embedded widgets or social media buttons.",
       ],
     },
     {
@@ -75,7 +82,8 @@ const en: Policy = {
   ],
   contact: {
     heading: "Contact",
-    body: "This app is operated by BaronDev. Questions about privacy can be sent via",
+    before: "This app is operated by",
+    after: "Questions about privacy can be sent via",
     linkText: "GitHub",
   },
 };
@@ -88,7 +96,7 @@ const pl: Policy = {
   summaryTitle: "W skrócie",
   summary: [
     "Twoje pliki PDF są przetwarzane w całości w przeglądarce. Nigdy nie są wysyłane, przechowywane ani widziane przez nikogo innego.",
-    "Bez kont, bez plików cookie, bez analityki, bez reklam i bez zewnętrznych skryptów śledzących.",
+    "Bez kont, analityki, reklam i zewnętrznych skryptów śledzących — oraz bez własnych plików cookie.",
     "Jedyne, co zapisujemy na Twoim urządzeniu, to język i motyw — i tylko wtedy, gdy sam je wybierzesz.",
   ],
   sections: [
@@ -112,7 +120,7 @@ const pl: Policy = {
     {
       heading: "Pliki cookie i preferencje",
       body: [
-        "Nie używamy plików cookie. Powyższe dwie wartości pozostają na Twoim urządzeniu, nigdy do nas nie trafiają i służą tylko temu, by aplikacja następnym razem wyglądała tak, jak chcesz. Dopóki nie dokonasz wyboru, aplikacja po prostu korzysta z języka przeglądarki i motywu systemu, niczego nie zapisując. Zapisane wartości możesz w każdej chwili usunąć, czyszcząc dane tej witryny w ustawieniach przeglądarki.",
+        "Sami nie ustawiamy żadnych plików cookie. Powyższe dwie wartości pozostają na Twoim urządzeniu, nigdy do nas nie trafiają i służą tylko temu, by aplikacja następnym razem wyglądała tak, jak chcesz. Dopóki nie dokonasz wyboru, aplikacja po prostu korzysta z języka przeglądarki i motywu systemu, niczego nie zapisując. Zapisane wartości możesz w każdej chwili usunąć, czyszcząc dane tej witryny w ustawieniach przeglądarki. Jedyny plik cookie, z którym możesz się spotkać, to niezbędny plik bezpieczeństwa od Cloudflare, opisany poniżej.",
       ],
     },
     {
@@ -122,9 +130,16 @@ const pl: Policy = {
       ],
     },
     {
+      heading: "Domena i sieć (Cloudflare)",
+      body: [
+        "Nasza nazwa domeny jest zarejestrowana w Cloudflare, Inc., które pełni rolę rejestratora. Ruch do tej witryny przechodzi przez sieć Cloudflare (DNS i proxy), która znajduje się między Twoją przeglądarką a naszym hostingiem, aby przyspieszać dostarczanie i chronić witrynę przed atakami i nadużyciami.",
+        "W tym celu Cloudflare przetwarza techniczne dane żądań, takie jak adres IP, typ przeglądarki i żądane strony, i może ustawić niezbędny plik cookie bezpieczeństwa (np. do ochrony przed botami). Nie używamy Cloudflare do analityki ani reklam i nie możemy na podstawie tych danych zidentyfikować Ciebie. Sposób postępowania Cloudflare z danymi opisuje polityka prywatności Cloudflare.",
+      ],
+    },
+    {
       heading: "Podmioty trzecie",
       body: [
-        "Brak. Czcionki są dołączone do witryny, a nie ładowane od zewnętrznego dostawcy, i nie ma tu reklam, osadzonych widżetów ani przycisków mediów społecznościowych.",
+        "Poza opisanymi wyżej dostawcami infrastruktury — brak. Czcionki są dołączone do witryny, a nie ładowane od zewnętrznego dostawcy, i nie ma tu reklam, osadzonych widżetów ani przycisków mediów społecznościowych.",
       ],
     },
     {
@@ -142,7 +157,8 @@ const pl: Policy = {
   ],
   contact: {
     heading: "Kontakt",
-    body: "Aplikację prowadzi BaronDev. Pytania dotyczące prywatności można kierować przez",
+    before: "Aplikację prowadzi",
+    after: "Pytania dotyczące prywatności można kierować przez",
     linkText: "GitHub",
   },
 };
@@ -155,7 +171,7 @@ const de: Policy = {
   summaryTitle: "Kurz gesagt",
   summary: [
     "Ihre PDFs werden vollständig in Ihrem Browser verarbeitet. Sie werden nie hochgeladen, gespeichert oder von anderen eingesehen.",
-    "Keine Konten, keine Cookies, keine Analyse, keine Werbung, keine Tracker von Drittanbietern.",
+    "Keine Konten, keine Analyse, keine Werbung, keine Tracker von Drittanbietern — und keine eigenen Cookies.",
     "Auf Ihrem Gerät wird nur Ihre Sprache und Ihr Design gespeichert — und nur, wenn Sie beides selbst wählen.",
   ],
   sections: [
@@ -179,7 +195,7 @@ const de: Policy = {
     {
       heading: "Cookies und Einstellungen",
       body: [
-        "Wir verwenden keine Cookies. Die beiden Werte bleiben auf Ihrem Gerät, werden nie an uns übermittelt und dienen nur dazu, dass die App beim nächsten Mal so aussieht, wie Sie es wünschen. Solange Sie nichts wählen, folgt die App einfach der Sprache Ihres Browsers und dem Design Ihres Systems, ohne etwas zu speichern. Sie können die gespeicherten Werte jederzeit entfernen, indem Sie die Daten dieser Website in den Browser-Einstellungen löschen.",
+        "Wir setzen selbst keine Cookies. Die beiden Werte bleiben auf Ihrem Gerät, werden nie an uns übermittelt und dienen nur dazu, dass die App beim nächsten Mal so aussieht, wie Sie es wünschen. Solange Sie nichts wählen, folgt die App einfach der Sprache Ihres Browsers und dem Design Ihres Systems, ohne etwas zu speichern. Sie können die gespeicherten Werte jederzeit entfernen, indem Sie die Daten dieser Website in den Browser-Einstellungen löschen. Das einzige Cookie, dem Sie begegnen können, ist ein technisch notwendiges Sicherheits-Cookie von Cloudflare (siehe unten).",
       ],
     },
     {
@@ -189,9 +205,16 @@ const de: Policy = {
       ],
     },
     {
+      heading: "Domain und Netzwerk (Cloudflare)",
+      body: [
+        "Unser Domainname ist bei Cloudflare, Inc. registriert, das als Registrar fungiert. Der Datenverkehr zu dieser Website läuft über das Netzwerk von Cloudflare (DNS und Proxy), das zwischen Ihrem Browser und unserem Hoster steht, um die Auslieferung zu beschleunigen und die Website vor Angriffen und Missbrauch zu schützen.",
+        "Dabei verarbeitet Cloudflare technische Anfragedaten wie IP-Adresse, Browsertyp und aufgerufene Seiten und kann ein technisch notwendiges Sicherheits-Cookie setzen (etwa zum Schutz vor Bots). Wir nutzen Cloudflare weder für Analyse noch für Werbung und können Sie anhand dieser Daten nicht identifizieren. Wie Cloudflare mit Daten umgeht, beschreibt die Datenschutzerklärung von Cloudflare.",
+      ],
+    },
+    {
       heading: "Drittanbieter",
       body: [
-        "Es gibt keine. Schriften sind Teil der Website und werden nicht von einem Schriftanbieter geladen; es gibt keine Werbung, eingebetteten Widgets oder Social-Media-Schaltflächen.",
+        "Abgesehen von den oben beschriebenen Infrastruktur-Anbietern gibt es keine. Schriften sind Teil der Website und werden nicht von einem Schriftanbieter geladen; es gibt keine Werbung, eingebetteten Widgets oder Social-Media-Schaltflächen.",
       ],
     },
     {
@@ -222,7 +245,7 @@ const fr: Policy = {
   summaryTitle: "En bref",
   summary: [
     "Vos PDF sont traités entièrement dans votre navigateur. Ils ne sont jamais envoyés, stockés ni vus par quelqu’un d’autre.",
-    "Pas de compte, pas de cookies, pas d’analyse, pas de publicité, pas de traceurs tiers.",
+    "Pas de compte, pas d’analyse, pas de publicité, pas de traceurs tiers — et aucun cookie de notre part.",
     "La seule chose enregistrée sur votre appareil est votre langue et votre thème — et uniquement si vous les choisissez vous-même.",
   ],
   sections: [
@@ -246,7 +269,7 @@ const fr: Policy = {
     {
       heading: "Cookies et préférences",
       body: [
-        "Nous n’utilisons pas de cookies. Les deux valeurs ci-dessus restent sur votre appareil, ne nous sont jamais transmises et servent uniquement à ce que l’application ait l’apparence souhaitée la prochaine fois. Tant que vous n’avez rien choisi, l’application suit simplement la langue de votre navigateur et le thème de votre système sans rien enregistrer. Vous pouvez supprimer ces valeurs à tout moment en effaçant les données de ce site dans les paramètres de votre navigateur.",
+        "Nous ne déposons aucun cookie nous-mêmes. Les deux valeurs ci-dessus restent sur votre appareil, ne nous sont jamais transmises et servent uniquement à ce que l’application ait l’apparence souhaitée la prochaine fois. Tant que vous n’avez rien choisi, l’application suit simplement la langue de votre navigateur et le thème de votre système sans rien enregistrer. Vous pouvez supprimer ces valeurs à tout moment en effaçant les données de ce site dans les paramètres de votre navigateur. Le seul cookie que vous pourriez rencontrer est un cookie de sécurité strictement nécessaire de Cloudflare, décrit ci-dessous.",
       ],
     },
     {
@@ -256,9 +279,16 @@ const fr: Policy = {
       ],
     },
     {
+      heading: "Domaine et réseau (Cloudflare)",
+      body: [
+        "Notre nom de domaine est enregistré auprès de Cloudflare, Inc., qui agit en tant que bureau d’enregistrement. Le trafic vers ce site transite par le réseau de Cloudflare (DNS et proxy), placé entre votre navigateur et notre hébergeur pour accélérer la diffusion et protéger le site contre les attaques et les abus.",
+        "Pour cela, Cloudflare traite des données techniques de requête telles que votre adresse IP, le type de navigateur et les pages demandées, et peut déposer un cookie de sécurité strictement nécessaire (par exemple pour la protection contre les robots). Nous n’utilisons pas Cloudflare pour l’analyse ni la publicité et ne pouvons pas vous identifier grâce à ces données. Le traitement des données par Cloudflare est décrit dans la politique de confidentialité de Cloudflare.",
+      ],
+    },
+    {
       heading: "Tiers",
       body: [
-        "Il n’y en a aucun. Les polices sont intégrées au site au lieu d’être chargées depuis un fournisseur, et il n’y a ni publicité, ni widget intégré, ni bouton de réseau social.",
+        "Hormis les fournisseurs d’infrastructure décrits ci-dessus, il n’y en a aucun. Les polices sont intégrées au site au lieu d’être chargées depuis un fournisseur, et il n’y a ni publicité, ni widget intégré, ni bouton de réseau social.",
       ],
     },
     {
@@ -276,7 +306,8 @@ const fr: Policy = {
   ],
   contact: {
     heading: "Contact",
-    body: "Cette application est exploitée par BaronDev. Les questions relatives à la vie privée peuvent être envoyées via",
+    before: "Cette application est exploitée par",
+    after: "Les questions relatives à la vie privée peuvent être envoyées via",
     linkText: "GitHub",
   },
 };
@@ -289,7 +320,7 @@ const es: Policy = {
   summaryTitle: "En resumen",
   summary: [
     "Tus PDF se procesan por completo en tu navegador. Nunca se suben, almacenan ni los ve nadie más.",
-    "Sin cuentas, sin cookies, sin analítica, sin publicidad, sin rastreadores de terceros.",
+    "Sin cuentas, sin analítica, sin publicidad, sin rastreadores de terceros — y sin cookies propias.",
     "Lo único que se guarda en tu dispositivo es tu idioma y tu tema, y solo si los eliges tú.",
   ],
   sections: [
@@ -313,7 +344,7 @@ const es: Policy = {
     {
       heading: "Cookies y preferencias",
       body: [
-        "No usamos cookies. Los dos valores anteriores permanecen en tu dispositivo, nunca se nos envían y existen solo para que la aplicación se vea como pediste la próxima vez. Mientras no elijas, la aplicación simplemente sigue el idioma de tu navegador y el tema de tu sistema sin guardar nada. Puedes borrar los valores guardados en cualquier momento eliminando los datos de este sitio en la configuración de tu navegador.",
+        "No establecemos ninguna cookie por nuestra cuenta. Los dos valores anteriores permanecen en tu dispositivo, nunca se nos envían y existen solo para que la aplicación se vea como pediste la próxima vez. Mientras no elijas, la aplicación simplemente sigue el idioma de tu navegador y el tema de tu sistema sin guardar nada. Puedes borrar los valores guardados en cualquier momento eliminando los datos de este sitio en la configuración de tu navegador. La única cookie que podrías encontrar es una cookie de seguridad estrictamente necesaria de Cloudflare, descrita más abajo.",
       ],
     },
     {
@@ -323,9 +354,16 @@ const es: Policy = {
       ],
     },
     {
+      heading: "Dominio y red (Cloudflare)",
+      body: [
+        "Nuestro nombre de dominio está registrado en Cloudflare, Inc., que actúa como registrador. El tráfico hacia este sitio pasa por la red de Cloudflare (DNS y proxy), situada entre tu navegador y nuestro alojamiento, para acelerar la entrega y proteger el sitio frente a ataques y abusos.",
+        "Para ello, Cloudflare procesa datos técnicos de las solicitudes, como tu dirección IP, el tipo de navegador y las páginas solicitadas, y puede establecer una cookie de seguridad estrictamente necesaria (por ejemplo, para la protección frente a bots). No usamos Cloudflare para analítica ni publicidad y no podemos identificarte con estos datos. El tratamiento de datos por parte de Cloudflare se describe en la política de privacidad de Cloudflare.",
+      ],
+    },
+    {
       heading: "Terceros",
       body: [
-        "No hay ninguno. Las fuentes se incluyen en el propio sitio en lugar de cargarse desde un proveedor externo, y no hay anuncios, widgets incrustados ni botones de redes sociales.",
+        "Aparte de los proveedores de infraestructura descritos arriba, no hay ninguno. Las fuentes se incluyen en el propio sitio en lugar de cargarse desde un proveedor externo, y no hay anuncios, widgets incrustados ni botones de redes sociales.",
       ],
     },
     {
@@ -343,7 +381,8 @@ const es: Policy = {
   ],
   contact: {
     heading: "Contacto",
-    body: "Esta aplicación la gestiona BaronDev. Las preguntas sobre privacidad pueden enviarse a través de",
+    before: "Esta aplicación la gestiona",
+    after: "Las preguntas sobre privacidad pueden enviarse a través de",
     linkText: "GitHub",
   },
 };

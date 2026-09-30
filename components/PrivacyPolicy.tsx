@@ -86,7 +86,15 @@ export default function PrivacyPolicy() {
           <section className="flex flex-col gap-3">
             <h2 className="font-display text-2xl">{p.contact.heading}</h2>
             <p className="leading-relaxed">
-              {p.contact.body}{" "}
+              {p.contact.before}{" "}
+              <a
+                href={SITE.website}
+                rel="noopener noreferrer"
+                className="font-semibold text-accent underline underline-offset-4"
+              >
+                {SITE.owner}
+              </a>
+              . {p.contact.after}{" "}
               <a
                 href={SITE.ownerUrl}
                 rel="noopener noreferrer"

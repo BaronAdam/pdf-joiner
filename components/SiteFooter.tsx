@@ -13,7 +13,14 @@ export default function SiteFooter() {
       className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-line px-6 py-4 text-sm text-muted sm:px-16"
     >
       <span>
-        © {SITE.copyrightYear} {SITE.owner}
+        © {SITE.copyrightYear}{" "}
+        <a
+          href={SITE.website}
+          rel="noopener noreferrer"
+          className="underline underline-offset-4 hover:text-ink"
+        >
+          {SITE.owner}
+        </a>
       </span>
       <Link href="/privacy/" className="min-h-6 underline underline-offset-4 hover:text-ink">
         {POLICIES[locale].footerPrivacy}
