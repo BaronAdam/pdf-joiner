@@ -232,7 +232,8 @@ const de: Policy = {
   ],
   contact: {
     heading: "Kontakt",
-    body: "Diese App wird von BaronDev betrieben. Fragen zum Datenschutz können Sie über",
+    before: "Betreiber dieser App ist",
+    after: "Fragen zum Datenschutz können Sie über",
     linkText: "GitHub",
   },
 };
