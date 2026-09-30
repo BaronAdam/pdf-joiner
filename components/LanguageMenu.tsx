@@ -44,15 +44,15 @@ export default function LanguageMenu() {
         className="flex h-11 items-center gap-2 rounded-[10px] border border-line bg-surface pl-3.5 pr-3 text-[15px] font-medium"
       >
         <GlobeIcon size={18} strokeWidth={1.8} />
-        <span className="hidden sm:inline">{current.name}</span>
+        <span data-fade className="hidden sm:inline">{current.name}</span>
         <span className="sm:hidden uppercase">{current.code}</span>
-        <ChevronDown size={16} />
+        <ChevronDown size={16} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <div
           role="menu"
           aria-label={t.language}
-          className="absolute right-0 top-[52px] z-20 flex w-[212px] flex-col gap-0.5 rounded-xl border border-line bg-surface p-1.5 shadow-[0_12px_32px_var(--menu-shadow)]"
+          className="pj-menu absolute right-0 top-[52px] z-20 flex w-[212px] flex-col gap-0.5 rounded-xl border border-line bg-surface p-1.5 shadow-[0_12px_32px_var(--menu-shadow)]"
         >
           {LOCALES.map((l) => (
             <button

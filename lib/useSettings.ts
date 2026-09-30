@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 import {
   DICTS,
   detectLocale,
@@ -33,7 +34,12 @@ function write(key: string, value: string) {
   }
 }
 
-const systemTheme = (): Theme =>
+let langTimer: ReturnType<typeof setTimeout> | undefined;
+
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const systemTheme =(): Theme =>
   window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
 function subscribe(cb: () => void) {
@@ -68,8 +74,22 @@ export function useI18n(): {
 } {
   const locale = useSyncExternalStore(subscribe, getLocale, () => "en" as Locale);
   const setLocale = useCallback((l: Locale) => {
-    write(LOCALE_KEY, l);
-    emit();
+    if (l === getLocale()) return;
+    const apply = () => {
+      write(LOCALE_KEY, l);
+      emit();
+    };
+    if (prefersReducedMotion()) return apply();
+    const root = document.documentElement;
+    clearTimeout(langTimer);
+    root.classList.add("lang-fading");
+    langTimer = setTimeout(() => {
+      apply();
+      // Two frames so the new text is laid out before fading back in.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => root.classList.remove("lang-fading")),
+      );
+    }, 170);
   }, []);
   const t = DICTS[locale];
   return {
@@ -80,13 +100,41 @@ export function useI18n(): {
   };
 }
 
-export function useTheme(): { theme: Theme; toggle: () => void } {
+type Origin = { x: number; y: number };
+
+export function useTheme(): {
+  theme: Theme;
+  toggle: (origin?: Origin) => void;
+} {
   const theme = useSyncExternalStore(subscribe, getTheme, () => "light" as Theme);
-  const toggle = useCallback(() => {
+  const toggle = useCallback((origin?: Origin) => {
     const next: Theme = getTheme() === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    write(THEME_KEY, next);
-    emit();
+    const root = document.documentElement;
+    const apply = () => {
+      root.dataset.theme = next;
+      write(THEME_KEY, next);
+      emit();
+    };
+    if (prefersReducedMotion()) return apply();
+
+    const doc = document as unknown as {
+      startViewTransition?: (cb: () => void) => unknown;
+    };
+    if (doc.startViewTransition && origin) {
+      // Circular reveal growing from the toggle to the farthest corner.
+      const r = Math.hypot(
+        Math.max(origin.x, innerWidth - origin.x),
+        Math.max(origin.y, innerHeight - origin.y),
+      );
+      root.style.setProperty("--vt-x", `${origin.x}px`);
+      root.style.setProperty("--vt-y", `${origin.y}px`);
+      root.style.setProperty("--vt-r", `${r}px`);
+      doc.startViewTransition(() => flushSync(apply));
+    } else {
+      root.classList.add("theme-anim");
+      apply();
+      setTimeout(() => root.classList.remove("theme-anim"), 450);
+    }
   }, []);
   return { theme, toggle };
 }

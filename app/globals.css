@@ -115,3 +115,52 @@ input:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .pj-shim, .pj-pop, .pj-bar, .animate-spin { animation: none !important; }
 }
+
+/* ---- Theme switch ---------------------------------------------------- */
+
+/* Preferred: circular reveal from the toggle (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) {
+  z-index: 2;
+  animation: pj-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes pj-reveal {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
+  to { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0)); }
+}
+
+/* Fallback: cross-fade colours while the class is on <html>. */
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    fill 0.35s ease,
+    stroke 0.35s ease,
+    box-shadow 0.35s ease !important;
+}
+
+/* ---- Language switch ------------------------------------------------- */
+
+/* Text fades out, the dictionary swaps while invisible, then it fades in,
+   so the reflow from different string lengths is never seen. */
+[data-fade] { transition: opacity 0.2s ease; }
+html.lang-fading [data-fade] { opacity: 0; transition-duration: 0.16s; }
+
+@keyframes pj-menu-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.pj-menu { animation: pj-menu-in 0.16s ease-out; transform-origin: top right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-menu { animation: none; }
+  [data-fade] { transition: none; }
+}

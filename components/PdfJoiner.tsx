@@ -125,7 +125,7 @@ export default function PdfJoiner() {
           <span className="font-display text-[26px] tracking-tight">PDF Joiner</span>
         </div>
         <div className="flex items-center gap-5">
-          <div className="hidden items-center gap-2 text-sm text-muted lg:flex">
+          <div data-fade className="hidden items-center gap-2 text-sm text-muted lg:flex">
             <LockIcon size={16} className="text-accent" />
             {t.privacy}
           </div>
@@ -135,7 +135,7 @@ export default function PdfJoiner() {
       </header>
 
       {empty ? (
-        <main className="flex flex-1 flex-col items-center justify-center gap-9 px-6 pb-12 sm:px-16">
+        <main data-fade className="flex flex-1 flex-col items-center justify-center gap-9 px-6 pb-12 sm:px-16">
           <div className="flex flex-col items-center gap-3 text-center">
             <h1 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-[52px]">
               {t.heroTitle}
@@ -153,7 +153,7 @@ export default function PdfJoiner() {
           <Rejections list={rejections} onDismiss={() => setRejections([])} />
         </main>
       ) : (
-        <main className="flex flex-1 flex-col gap-7 px-6 pb-8 pt-8 sm:px-16">
+        <main data-fade className="flex flex-1 flex-col gap-7 px-6 pb-8 pt-8 sm:px-16">
           <DropZone variant="compact" disabled={busy} onFiles={addFiles} />
           <Rejections list={rejections} onDismiss={() => setRejections([])} />
 

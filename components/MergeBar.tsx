@@ -34,7 +34,7 @@ export default function MergeBar({
   const pct = busy ? Math.round(((step + 0.5) / fileCount) * 100) : 0;
 
   return (
-    <footer className="sticky bottom-0 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line bg-surface px-6 py-[18px] sm:px-16">
+    <footer data-fade className="sticky bottom-0 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line bg-surface px-6 py-[18px] sm:px-16">
       <div className="flex w-full flex-col gap-1.5 sm:w-[400px]" aria-live="polite">
         <span className="text-base font-semibold">
           {count(fileCount, "file")} · {count(pageCount, "page")}
