@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DndContext,
   KeyboardSensor,
@@ -23,12 +23,11 @@ import { useI18n } from "@/lib/useSettings";
 import DropZone from "./DropZone";
 import FileCard, { PendingCard } from "./FileCard";
 import MergeBar from "./MergeBar";
-import LanguageMenu from "./LanguageMenu";
-import ThemeToggle from "./ThemeToggle";
-import { LockIcon, LogoIcon } from "./icons";
+import SiteHeader from "./SiteHeader";
+import SiteFooter from "./SiteFooter";
 
 export default function PdfJoiner() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const [items, setItems] = useState<PdfItem[]>([]);
   const [pending, setPending] = useState<PendingItem[]>([]);
   const [rejections, setRejections] = useState<Rejection[]>([]);
@@ -37,10 +36,6 @@ export default function PdfJoiner() {
   const [done, setDone] = useState(false);
   const [failed, setFailed] = useState(false);
   const [outName, setOutName] = useState("merged.pdf");
-
-  useEffect(() => {
-    document.documentElement.lang = locale;
-  }, [locale]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -119,20 +114,7 @@ export default function PdfJoiner() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 px-6 pt-6 sm:px-16">
-        <div className="flex items-center gap-3">
-          <LogoIcon size={28} className="text-accent" strokeWidth={1.8} />
-          <span className="font-display text-[26px] tracking-tight">PDF Joiner</span>
-        </div>
-        <div className="flex items-center gap-5">
-          <div data-fade className="hidden items-center gap-2 text-sm text-muted lg:flex">
-            <LockIcon size={16} className="text-accent" />
-            {t.privacy}
-          </div>
-          <LanguageMenu />
-          <ThemeToggle />
-        </div>
-      </header>
+      <SiteHeader />
 
       {empty ? (
         <main data-fade className="flex flex-1 flex-col items-center justify-center gap-9 px-6 pb-12 sm:px-16">
@@ -228,6 +210,8 @@ export default function PdfJoiner() {
           onMerge={merge}
         />
       )}
+
+      <SiteFooter />
     </div>
   );
 }
